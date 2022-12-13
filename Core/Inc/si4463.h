@@ -26,11 +26,17 @@ typedef enum {
 } SI4463_StatusTypeDef;
 
 typedef enum {
+    SI4463_FREQ_26MHZ = 0x00U,
+    SI4463_FREQ_30MHZ = 0x01U
+} SI4463_FreqTypeDef;
+
+typedef enum {
     SI4463_CONFIG_FSK = 0x00U,
     SI4463_CONFIG_RTTY = 0x01U
 } SI4463_ConfigTypeDef;
 
 typedef struct {
+    /* USER MUST SET THESE */
     SPI_HandleTypeDef *spi;
     // IO
     GPIO_TypeDef *SDNPort;
@@ -42,14 +48,16 @@ typedef struct {
     GPIO_TypeDef *GPIO1_Port;
     uint16_t GPIO1_Pin;
     // general
-    uint8_t power;          // transmit power
-    uint8_t gpio[4];        // SI4463_GPIOTypeDef GPIO state, io of SI4463
+    uint8_t power;              // transmit power
+    SI4463_FreqTypeDef freq;    // TCXO or crystall frequency at XIN
     // RTTY specific
-    uint16_t baudDelay;      // baudRate = (1000 / baudDelay), baudRate of RTTY protocol
+    uint16_t baudDelay;         // baudRate = (1000 / baudDelay), baudRate of RTTY protocol
     // status type
     SI4463_ConfigTypeDef config;
-    // current state, DO NOT EDIT
-    uint8_t isInTX;
+
+    /* THESES ARE SET AUTOMATICALLY, DO NOT EDIT*/
+    uint8_t isInTX;         // current state, DO NOT EDIT
+    uint8_t gpio[4];        // SI4463_GPIOTypeDef GPIO state, io of SI4463
 } SI4463_Handle;
 
 // transmit power table, should be tested for each board

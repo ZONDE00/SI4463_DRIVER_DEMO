@@ -122,6 +122,7 @@ int main(void) {
     SI4463_Handle.CSPin = SPI1_CS_Pin;
     SI4463_Handle.GPIO0_Port = SPI1_RT_GPIO_Port;   // required for RTTY only
     SI4463_Handle.GPIO0_Pin = SPI1_RT_Pin;
+    SI4463_Handle.freq = SI4463_FREQ_26MHZ;     // change to XIN frequency
     SI4463_Handle.baudDelay = 20;
     SI4463_Handle.power = 0;
 

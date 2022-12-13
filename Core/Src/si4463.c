@@ -8,6 +8,8 @@
 #include "SI4463.h"
 #include "radio_config_Si4463.h"
 #include "radio_config_Si4463_rtty.h"
+#include "radio_config_Si4463_30.h"
+#include "radio_config_Si4463_rtty_30.h"
 #include <string.h>
 /*
  * Generatre RADIO_CONFIGURATION_DATA_ARRAY using Wireless Development Suite at silicon labs
@@ -15,8 +17,10 @@
  * remove patch bit from second line of RADIO_CONFIGURATION_DATA_ARRAY
  */
 
-uint8_t FSK[] = RADIO_CONFIGURATION_DATA_ARRAY;
-uint8_t RTTY[] = RADIO_CONFIGURATION_DATA_RTTY_ARRAY;
+uint8_t FSK_26[] = RADIO_CONFIGURATION_DATA_ARRAY;
+uint8_t RTTY_26[] = RADIO_CONFIGURATION_DATA_RTTY_ARRAY;
+uint8_t FSK_30[] = RADIO_CONFIGURATION_DATA_ARRAY_30;
+uint8_t RTTY_30[] = RADIO_CONFIGURATION_DATA_ARRAY_RTTY_30;
 
 // GPIO settings
 uint8_t confGPIO[8];
@@ -39,11 +43,19 @@ SI4463_StatusTypeDef SI4463_Init(SI4463_Handle *handle) {
     // deselect
     SI4463_Deselect(handle);
     // Shutdown TRX
-    HAL_GPIO_WritePin(SPI1_SDN_GPIO_Port, SPI1_SDN_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(handle->SDNPort, handle->SDNPin, GPIO_PIN_SET);
     HAL_Delay(10);
     // turn on TRX
-    HAL_GPIO_WritePin(SPI1_SDN_GPIO_Port, SPI1_SDN_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(handle->SDNPort, handle->SDNPin, GPIO_PIN_RESET);
     HAL_Delay(14);
+
+    uint8_t rxData[8];
+    uint8_t idCmd = 0x01;
+    SI4463_SPI_Receive(handle, idCmd, rxData, 8, 1000);
+    // check for correct device ID
+    if( rxData[1] != 0x44 || rxData[2] != 0x63){
+        return SI4463_ERROR;
+    }
 
     // config device
     SI4463_Config(handle);
@@ -132,14 +144,26 @@ SI4463_StatusTypeDef SI4463_Config(SI4463_Handle *handle) {
     uint8_t rxData[8] = { 0 };
 
     // send NOP before everything else
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+    SI4463_Select(handle);
     HAL_SPI_Transmit(handle->spi, &cmd, 1, 20);
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+    SI4463_Deselect(handle);
 
     if (handle->config == SI4463_CONFIG_FSK) {
-        config = FSK;
+        if (handle->freq == SI4463_FREQ_26MHZ) {
+            config = FSK_26;
+        } else if (handle->freq == SI4463_FREQ_30MHZ) {
+            config = FSK_30;
+        } else {
+            return SI4463_ERROR;
+        }
     } else if (handle->config == SI4463_CONFIG_RTTY) {
-        config = RTTY;
+        if (handle->freq == SI4463_FREQ_26MHZ) {
+            config = RTTY_26;
+        } else if (handle->freq == SI4463_FREQ_30MHZ) {
+            config = RTTY_30;
+        } else {
+            return SI4463_ERROR;
+        }
     } else {
         return SI4463_ERROR;
     }
@@ -309,10 +333,10 @@ SI4463_StatusTypeDef SI4463_Receive_FSK(SI4463_Handle *handle, uint8_t *buf, uin
 
     // get data from FIFO
     cmd = SI4463_CMD_RX_FIFO;
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+    SI4463_Select(handle);
     HAL_SPI_Transmit(handle->spi, &cmd, 1, 20);
     HAL_SPI_Receive(handle->spi, buf, size, 20);
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+    SI4463_Deselect(handle);
 
     return SI4463_OK;
 }
@@ -509,18 +533,21 @@ SI4463_StatusTypeDef SI4463_SPI_Transmit(SI4463_Handle *handle, uint8_t cmd, uin
         return retVal;
     }
 
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+    SI4463_Select(handle);
     HAL_SPI_Transmit(handle->spi, &cmd, 1, 20);
     HAL_SPI_Transmit(handle->spi, data, size, 20);
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+    SI4463_Deselect(handle);
 
     return SI4463_OK;
 }
 
-inline void SI4463_Select(SI4463_Handle *handle) {
+void SI4463_Select(SI4463_Handle *handle) {
     HAL_GPIO_WritePin(handle->CSPort, handle->CSPin, GPIO_PIN_RESET);
+    // dumb delay, for somewhat correct timing
+    uint32_t clockFreq = HAL_RCC_GetSysClockFreq() / 100000;
+    for(uint32_t i = 0; i < clockFreq; i++);
 }
 
-inline void SI4463_Deselect(SI4463_Handle *handle) {
+void SI4463_Deselect(SI4463_Handle *handle) {
     HAL_GPIO_WritePin(handle->CSPort, handle->CSPin, GPIO_PIN_SET);
 }
