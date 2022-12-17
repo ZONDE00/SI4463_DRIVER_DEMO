@@ -209,7 +209,7 @@ SI4463_StatusTypeDef SI4463_Config(SI4463_Handle *handle) {
         if (buf[0] != SI4463_CMD_POWER_UP) {
             SI4463_SPI_Receive(handle, cmd, rxData, 8, 1000);
             if (rxData[3] == buf[0]) {
-                while (1);	// error in configuration pls fix
+                while (1);  // error in configuration pls fix
             }
         } else {
             // if SI4463_CMD_POWER_UP then wait for chip ready bit
@@ -333,7 +333,7 @@ SI4463_StatusTypeDef SI4463_Receive_FSK(SI4463_Handle *handle, uint8_t *buf, uin
     // poll for RX received interrupt
     while (1) {
         SI4463_SPI_Receive(handle, SI4463_CMD_INT_STATUS, data, 8, 3);
-        if (data[3] & 0b10000) {
+        if (data[3] & 0b10000 || data[3] & 0b1) {
             break;
         }
         if (endTime < HAL_GetTick()) {
@@ -425,6 +425,7 @@ SI4463_StatusTypeDef SI4463_Transmit_RTTY(SI4463_Handle *handle, uint8_t *data, 
  * @Retval status of CTS and transmit
  */
 SI4463_StatusTypeDef SI4463_Transmit_FSK(SI4463_Handle *handle, uint8_t *buf, uint8_t size, uint32_t timeout) {
+    uint32_t endTime = HAL_GetTick() + timeout;
     // must be configured in FSK mode
     if (handle->config != SI4463_CONFIG_FSK) {
         handle->config = SI4463_CONFIG_FSK;
@@ -472,6 +473,17 @@ SI4463_StatusTypeDef SI4463_Transmit_FSK(SI4463_Handle *handle, uint8_t *buf, ui
         return retVal;
     }
 
+    // poll for packet sent
+    while (1) {
+        SI4463_SPI_Receive(handle, SI4463_CMD_INT_STATUS, data, 8, 3);
+        if (data[3] & 0b100000) {
+            break;
+        }
+        if (endTime < HAL_GetTick()) {
+            return SI4463_TIMEOUT;
+        }
+    }
+
     return SI4463_OK;
 }
 
@@ -513,7 +525,7 @@ SI4463_StatusTypeDef SI4463_PollCTS(SI4463_Handle *handle, uint32_t timeout) {
 SI4463_StatusTypeDef SI4463_SPI_Receive(SI4463_Handle *handle, uint8_t cmd, uint8_t *buf, uint8_t size, uint32_t timeout) {
     SI4463_StatusTypeDef retVal = SI4463_ERROR;
 
-    retVal = SI4463_PollCTS(handle, timeout);	// wait for ready
+    retVal = SI4463_PollCTS(handle, timeout);   // wait for ready
     if (retVal != SI4463_OK) {
         return retVal;
     }
@@ -538,7 +550,7 @@ SI4463_StatusTypeDef SI4463_SPI_Receive(SI4463_Handle *handle, uint8_t cmd, uint
 SI4463_StatusTypeDef SI4463_SPI_Transmit(SI4463_Handle *handle, uint8_t cmd, uint8_t *data, uint8_t size, uint32_t timeout) {
     SI4463_StatusTypeDef retVal = SI4463_ERROR;
 
-    retVal = SI4463_PollCTS(handle, timeout);	// wait for ready
+    retVal = SI4463_PollCTS(handle, timeout);   // wait for ready
     if (retVal != SI4463_OK) {
         return retVal;
     }
