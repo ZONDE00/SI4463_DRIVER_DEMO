@@ -20,7 +20,7 @@
 uint8_t FSK_26[] = RADIO_CONFIGURATION_DATA_ARRAY;
 uint8_t RTTY_26[] = RADIO_CONFIGURATION_DATA_RTTY_ARRAY;
 uint8_t FSK_30[] = RADIO_CONFIGURATION_DATA_ARRAY_30;
-uint8_t RTTY_30[] = RADIO_CONFIGURATION_DATA_ARRAY_RTTY_30;
+uint8_t RTTY_30[] = RADIO_CONFIGURATION_DATA_RTTY_ARRAY_30;
 
 // GPIO settings
 uint8_t confGPIO[8];
@@ -174,7 +174,7 @@ SI4463_StatusTypeDef SI4463_Config(SI4463_Handle *handle) {
         if (len > 16) {
             return SI4463_ERROR;
         }
-
+         // 0x02, 0x01, 0x01, 0x01, 0x8C, 0xBA, 0x80
         config++;
         uint8_t buf[16];
         memcpy(buf, config, len);
@@ -213,10 +213,20 @@ SI4463_StatusTypeDef SI4463_Config(SI4463_Handle *handle) {
             }
         } else {
             // if SI4463_CMD_POWER_UP then wait for chip ready bit
+            // timeout in 100 ms
+            uint32_t endTime = HAL_GetTick() + 100;
             while (1) {
                 SI4463_SPI_Receive(handle, cmd, rxData, 8, 1000);
-                if (rxData[0] & 0b100) {
+                if (rxData[0] & 0b100) { // chip ready bit
                     break;
+                }
+
+                if (rxData[0] & 0b1000) { // cmd error bit
+                    return SI4463_ERROR;
+                }
+
+                if (endTime < HAL_GetTick()) {
+                    return SI4463_ERROR;
                 }
             }
         }

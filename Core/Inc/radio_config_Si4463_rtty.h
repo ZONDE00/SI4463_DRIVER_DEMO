@@ -22,18 +22,18 @@
 // Crys_freq(Hz): 26000000    Crys_tol(ppm): 0.5    IF_mode: 2    High_peRF_RTTY_Ch_Fil: 1    OSRtune: 0    Ch_Fil_Bw_AFC: 0    ANT_DIV: 0    PM_pattern: 15
 // MOD_type: 2    Rsymb(sps): 1000    Fdev(Hz): 300    RXBW(Hz): 150000    Manchester: 0    AFC_en: 0    Rsymb_error: 0.0    Chip-Version: 2
 // RF Freq.(MHz): 433.3    API_TC: 29    fhst: 600    inputBW: 0    BERT: 0    RAW_dout: 0    D_source: 1    Hi_pfm_div: 1
-// API_ARR_Det_en: 0    Fdev_error: 0    API_ETSI: 0    
-// 
+// API_ARR_Det_en: 0    Fdev_error: 0    API_ETSI: 0
+//
 // # RX IF frequency is  -406250 Hz
 // # WB filter 3 (BW =   2.51 kHz);  NB-filter 3 (BW = 2.51 kHz)
-// 
+//
 // Modulation index: 0.6
 */
 
 
 // CONFIGURATION PARAMETERS
 #define RADIO_CONFIGURATION_DATA_RTTY_RADIO_RTTY_XO_FREQ                     26000000L
-#define RADIO_CONFIGURATION_DATA_RTTY_CHANNEL_NUMBER                    0x00
+#define RADIO_CONFIGURATION_DATA_RTTY_CHANNEL_NUMBER                         0x00
 #define RADIO_CONFIGURATION_DATA_RTTY_RADIO_RTTY_PACKET_LENGTH               0x00
 #define RADIO_CONFIGURATION_DATA_RTTY_RADIO_RTTY_STATE_AFTER_POWER_UP        0x03
 #define RADIO_CONFIGURATION_DATA_RTTY_RADIO_RTTY_DELAY_CNT_AFTER_RESET       0xF000
@@ -58,7 +58,7 @@
 // Number of properties:     2
 // Group ID:                 0x00
 // Start ID:                 0x00
-// Default values:           0x40, 0x00, 
+// Default values:           0x40, 0x00,
 // Descriptions:
 //   GLOBAL_XO_TUNE - Configure the internal capacitor frequency tuning bank for the crystal oscillator.
 //   GLOBAL_CLK_CFG - Clock configuration options.
@@ -70,7 +70,7 @@
 // Number of properties:     1
 // Group ID:                 0x00
 // Start ID:                 0x03
-// Default values:           0x20, 
+// Default values:           0x20,
 // Descriptions:
 //   GLOBAL_CONFIG - Global configuration settings.
 */
@@ -81,7 +81,7 @@
 // Number of properties:     1
 // Group ID:                 0x01
 // Start ID:                 0x00
-// Default values:           0x04, 
+// Default values:           0x04,
 // Descriptions:
 //   INT_CTL_ENABLE - This property provides for global enabling of the three interrupt groups (Chip, Modem and Packet Handler) in order to generate HW interrupts at the NIRQ pin.
 */
@@ -92,7 +92,7 @@
 // Number of properties:     4
 // Group ID:                 0x02
 // Start ID:                 0x00
-// Default values:           0x01, 0x02, 0x09, 0x00, 
+// Default values:           0x01, 0x02, 0x09, 0x00,
 // Descriptions:
 //   FRR_CTL_A_MODE - Fast Response Register A Configuration.
 //   FRR_CTL_B_MODE - Fast Response Register B Configuration.
@@ -106,7 +106,7 @@
 // Number of properties:     1
 // Group ID:                 0x10
 // Start ID:                 0x04
-// Default values:           0x21, 
+// Default values:           0x21,
 // Descriptions:
 //   PREAMBLE_CONFIG - General configuration bits for the Preamble field.
 */
@@ -117,7 +117,7 @@
 // Number of properties:     12
 // Group ID:                 0x20
 // Start ID:                 0x00
-// Default values:           0x02, 0x80, 0x07, 0x0F, 0x42, 0x40, 0x01, 0xC9, 0xC3, 0x80, 0x00, 0x06, 
+// Default values:           0x02, 0x80, 0x07, 0x0F, 0x42, 0x40, 0x01, 0xC9, 0xC3, 0x80, 0x00, 0x06,
 // Descriptions:
 //   MODEM_MOD_TYPE - Selects the type of modulation. In TX mode, additionally selects the source of the modulation.
 //   MODEM_MAP_CONTROL - Controls polarity and mapping of transmit and receive bits.
@@ -139,7 +139,7 @@
 // Number of properties:     1
 // Group ID:                 0x20
 // Start ID:                 0x0C
-// Default values:           0xD3, 
+// Default values:           0xD3,
 // Descriptions:
 //   MODEM_FREQ_DEV_0 - 17-bit unsigned TX frequency deviation word.
 */
@@ -150,7 +150,7 @@
 // Number of properties:     12
 // Group ID:                 0x20
 // Start ID:                 0x18
-// Default values:           0x01, 0x00, 0x08, 0x03, 0xC0, 0x00, 0x10, 0x20, 0x00, 0x00, 0x00, 0x4B, 
+// Default values:           0x01, 0x00, 0x08, 0x03, 0xC0, 0x00, 0x10, 0x20, 0x00, 0x00, 0x00, 0x4B,
 // Descriptions:
 //   MODEM_TX_RAMP_DELAY - TX ramp-down delay setting.
 //   MODEM_MDM_CTRL - MDM control.
@@ -161,7 +161,7 @@
 //   MODEM_DECIMATION_CFG1 - Specifies three decimator ratios for the Cascaded Integrator Comb (CIC) filter.
 //   MODEM_DECIMATION_CFG0 - Specifies miscellaneous parameters and decimator ratios for the Cascaded Integrator Comb (CIC) filter.
 //   MODEM_DECIMATION_CFG2 - Specifies miscellaneous decimator filter selections.
-//   MODEM_IFPKD_THRESHOLDS - 
+//   MODEM_IFPKD_THRESHOLDS -
 //   MODEM_BCR_OSR_1 - RX BCR/Slicer oversampling rate (12-bit unsigned number).
 //   MODEM_BCR_OSR_0 - RX BCR/Slicer oversampling rate (12-bit unsigned number).
 */
@@ -172,7 +172,7 @@
 // Number of properties:     12
 // Group ID:                 0x20
 // Start ID:                 0x24
-// Default values:           0x06, 0xD3, 0xA0, 0x06, 0xD3, 0x02, 0xC0, 0x00, 0x00, 0x23, 0x83, 0x69, 
+// Default values:           0x06, 0xD3, 0xA0, 0x06, 0xD3, 0x02, 0xC0, 0x00, 0x00, 0x23, 0x83, 0x69,
 // Descriptions:
 //   MODEM_BCR_NCO_OFFSET_2 - RX BCR NCO offset value (an unsigned 22-bit number).
 //   MODEM_BCR_NCO_OFFSET_1 - RX BCR NCO offset value (an unsigned 22-bit number).
@@ -194,7 +194,7 @@
 // Number of properties:     3
 // Group ID:                 0x20
 // Start ID:                 0x30
-// Default values:           0x00, 0x40, 0xA0, 
+// Default values:           0x00, 0x40, 0xA0,
 // Descriptions:
 //   MODEM_AFC_LIMITER_1 - Set the AFC limiter value.
 //   MODEM_AFC_LIMITER_0 - Set the AFC limiter value.
@@ -207,7 +207,7 @@
 // Number of properties:     1
 // Group ID:                 0x20
 // Start ID:                 0x35
-// Default values:           0xE0, 
+// Default values:           0xE0,
 // Descriptions:
 //   MODEM_AGC_CONTROL - Miscellaneous control bits for the Automatic Gain Control (AGC) function in the RX Chain.
 */
@@ -218,7 +218,7 @@
 // Number of properties:     12
 // Group ID:                 0x20
 // Start ID:                 0x38
-// Default values:           0x11, 0x10, 0x10, 0x0B, 0x1C, 0x40, 0x00, 0x00, 0x2B, 0x0C, 0xA4, 0x03, 
+// Default values:           0x11, 0x10, 0x10, 0x0B, 0x1C, 0x40, 0x00, 0x00, 0x2B, 0x0C, 0xA4, 0x03,
 // Descriptions:
 //   MODEM_AGC_WINDOW_SIZE - Specifies the size of the measurement and settling windows for the AGC algorithm.
 //   MODEM_AGC_RFPD_DECAY - Sets the decay time of the RF peak detectors.
@@ -240,7 +240,7 @@
 // Number of properties:     5
 // Group ID:                 0x20
 // Start ID:                 0x45
-// Default values:           0x02, 0x00, 0xA3, 0x02, 0x80, 
+// Default values:           0x02, 0x00, 0xA3, 0x02, 0x80,
 // Descriptions:
 //   MODEM_RAW_CONTROL - Defines gain and enable controls for raw / nonstandard mode.
 //   MODEM_RAW_EYE_1 - 11 bit eye-open detector threshold.
@@ -255,7 +255,7 @@
 // Number of properties:     1
 // Group ID:                 0x20
 // Start ID:                 0x4B
-// Default values:           0x0C, 
+// Default values:           0x0C,
 // Descriptions:
 //   MODEM_RSSI_JUMP_THRESH - Configures the RSSI Jump Detection threshold.
 */
@@ -266,7 +266,7 @@
 // Number of properties:     2
 // Group ID:                 0x20
 // Start ID:                 0x4D
-// Default values:           0x00, 0x40, 
+// Default values:           0x00, 0x40,
 // Descriptions:
 //   MODEM_RSSI_CONTROL2 - RSSI Jump Detection control.
 //   MODEM_RSSI_COMP - RSSI compensation value.
@@ -278,7 +278,7 @@
 // Number of properties:     2
 // Group ID:                 0x20
 // Start ID:                 0x50
-// Default values:           0x00, 0x08, 
+// Default values:           0x00, 0x08,
 // Descriptions:
 //   MODEM_RAW_SEARCH2 - Defines and controls the search period length for the Moving Average and Min-Max detectors.
 //   MODEM_CLKGEN_BAND - Select PLL Synthesizer output divider ratio as a function of frequency band.
@@ -290,7 +290,7 @@
 // Number of properties:     2
 // Group ID:                 0x20
 // Start ID:                 0x54
-// Default values:           0x00, 0x00, 
+// Default values:           0x00, 0x00,
 // Descriptions:
 //   MODEM_SPIKE_DET - Configures the threshold for (G)FSK Spike Detection.
 //   MODEM_ONE_SHOT_AFC - Configures parameters for th e One Shot AFC function and for BCR timing/acquisition.
@@ -302,7 +302,7 @@
 // Number of properties:     1
 // Group ID:                 0x20
 // Start ID:                 0x57
-// Default values:           0x00, 
+// Default values:           0x00,
 // Descriptions:
 //   MODEM_RSSI_MUTE - Configures muting of the RSSI to avoid false RSSI interrupts.
 */
@@ -313,7 +313,7 @@
 // Number of properties:     5
 // Group ID:                 0x20
 // Start ID:                 0x5B
-// Default values:           0x00, 0x00, 0x00, 0x00, 0x00, 
+// Default values:           0x00, 0x00, 0x00, 0x00, 0x00,
 // Descriptions:
 //   MODEM_DSA_CTRL1 - Configures parameters for the Signal Arrival Detection circuit block and algorithm.
 //   MODEM_DSA_CTRL2 - Configures parameters for the Signal Arrival Detection circuit block and algorithm.
@@ -328,7 +328,7 @@
 // Number of properties:     12
 // Group ID:                 0x21
 // Start ID:                 0x00
-// Default values:           0xFF, 0xBA, 0x0F, 0x51, 0xCF, 0xA9, 0xC9, 0xFC, 0x1B, 0x1E, 0x0F, 0x01, 
+// Default values:           0xFF, 0xBA, 0x0F, 0x51, 0xCF, 0xA9, 0xC9, 0xFC, 0x1B, 0x1E, 0x0F, 0x01,
 // Descriptions:
 //   MODEM_CHFLT_RX1_CHFLT_COE13_7_0 - Filter coefficients for the first set of RX filter coefficients.
 //   MODEM_CHFLT_RX1_CHFLT_COE12_7_0 - Filter coefficients for the first set of RX filter coefficients.
@@ -350,7 +350,7 @@
 // Number of properties:     12
 // Group ID:                 0x21
 // Start ID:                 0x0C
-// Default values:           0xFC, 0xFD, 0x15, 0xFF, 0x00, 0x0F, 0xFF, 0xC4, 0x30, 0x7F, 0xF5, 0xB5, 
+// Default values:           0xFC, 0xFD, 0x15, 0xFF, 0x00, 0x0F, 0xFF, 0xC4, 0x30, 0x7F, 0xF5, 0xB5,
 // Descriptions:
 //   MODEM_CHFLT_RX1_CHFLT_COE1_7_0 - Filter coefficients for the first set of RX filter coefficients.
 //   MODEM_CHFLT_RX1_CHFLT_COE0_7_0 - Filter coefficients for the first set of RX filter coefficients.
@@ -372,7 +372,7 @@
 // Number of properties:     12
 // Group ID:                 0x21
 // Start ID:                 0x18
-// Default values:           0xB8, 0xDE, 0x05, 0x17, 0x16, 0x0C, 0x03, 0x00, 0x15, 0xFF, 0x00, 0x00, 
+// Default values:           0xB8, 0xDE, 0x05, 0x17, 0x16, 0x0C, 0x03, 0x00, 0x15, 0xFF, 0x00, 0x00,
 // Descriptions:
 //   MODEM_CHFLT_RX2_CHFLT_COE7_7_0 - Filter coefficients for the second set of RX filter coefficients.
 //   MODEM_CHFLT_RX2_CHFLT_COE6_7_0 - Filter coefficients for the second set of RX filter coefficients.
@@ -394,7 +394,7 @@
 // Number of properties:     4
 // Group ID:                 0x22
 // Start ID:                 0x00
-// Default values:           0x08, 0x7F, 0x00, 0x5D, 
+// Default values:           0x08, 0x7F, 0x00, 0x5D,
 // Descriptions:
 //   PA_MODE - Selects the PA operating mode, and selects resolution of PA power adjustment (i.e., step size).
 //   PA_PWR_LVL - Configuration of PA output power level.
@@ -408,7 +408,7 @@
 // Number of properties:     7
 // Group ID:                 0x23
 // Start ID:                 0x00
-// Default values:           0x2C, 0x0E, 0x0B, 0x04, 0x0C, 0x73, 0x03, 
+// Default values:           0x2C, 0x0E, 0x0B, 0x04, 0x0C, 0x73, 0x03,
 // Descriptions:
 //   SYNTH_PFDCP_CPFF - Feed forward charge pump current selection.
 //   SYNTH_PFDCP_CPINT - Integration charge pump current selection.
@@ -425,7 +425,7 @@
 // Number of properties:     8
 // Group ID:                 0x40
 // Start ID:                 0x00
-// Default values:           0x3C, 0x08, 0x00, 0x00, 0x00, 0x00, 0x20, 0xFF, 
+// Default values:           0x3C, 0x08, 0x00, 0x00, 0x00, 0x00, 0x20, 0xFF,
 // Descriptions:
 //   FREQ_CONTROL_INTE - Frac-N PLL Synthesizer integer divide number.
 //   FREQ_CONTROL_FRAC_2 - Frac-N PLL fraction number.
